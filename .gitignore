@@ -32,5 +32,6 @@ client/src/.DS_Store
 .env
 .DS_Store
 FEC.pem
+Data/
 
 
