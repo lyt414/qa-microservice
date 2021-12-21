@@ -1,8 +1,6 @@
 -- USE atelier;
 -- \c atelier;
 -- \i schema.sql;
-
-TRUNCATE answers_photos;
 DROP TABLE IF EXISTS answers_photos;
 CREATE TABLE answers_photos (
     id integer NOT NULL PRIMARY KEY,
