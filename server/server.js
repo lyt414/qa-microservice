@@ -68,7 +68,7 @@ qa.put('/questions/:question_id/helpful', async(req, res) => {
 
   try {
     const helpful = await db.putQuestionHelpful(question_id);
-    res.status(201).send('Updated');
+    res.status(204).send('Updated');
   } catch(err){
     console.log(err);
     res.sendStatus(500);
@@ -81,7 +81,7 @@ qa.put('/answers/:answer_id/helpful', async(req, res) => {
 
   try {
     const helpful = await db.putAnswerHelpful(answer_id);
-    res.status(201).send('Updated');
+    res.status(204).send('Updated');
   } catch(err){
     console.log(err);
     res.sendStatus(500);
@@ -94,9 +94,11 @@ qa.put('/answers/:answer_id/reported', async(req, res) => {
 
   try {
     const helpful = await db.putAnswerReport(answer_id);
-    res.status(201).send('Updated');
+    res.status(204).send('Updated');
   } catch(err){
     console.log(err);
     res.sendStatus(500);
   }
 });
+
+module.exports = qa;

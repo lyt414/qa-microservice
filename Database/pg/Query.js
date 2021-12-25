@@ -44,6 +44,8 @@ const postAnswer = async (question_id, ans_obj) => {
       console.log('Photo posted succesfully');
     };
   }
+
+  return 'Posted';
 };
 
 // const start = async() => {
@@ -72,7 +74,8 @@ const postQuestion = async (que_obj) => {
 
   const res = await pool.query(insertQuestionQuery, [maxId+1, que_obj.product_id, que_obj.body, new Date().getTime(), que_obj.name, que_obj.email, 0, 0]);
   console.log('post Question is succesful');
-  return res;
+
+  return 'Posted';
 };
 
 const putQuestionHelpful = async (question_id) => {
@@ -94,7 +97,8 @@ const putQuestionHelpful = async (question_id) => {
 
   const res = await pool.query(updateQuestionHelpful, [currenthelpful+1, question_id]);
   console.log('Question helpful Updated!')
-  return res;
+
+  return 'Updated';
 
 };
 
@@ -119,7 +123,8 @@ const putAnswerHelpful = async (answer_id) => {
 
   const res = await  pool.query(updateAnswerHelpful, [currenthelpful+1, answer_id]);
   console.log('Answer helpful Updated!');
-  return res;
+
+  return 'Updated';
 
 };
 
@@ -132,7 +137,7 @@ const putAnswerReport = async (answer_id) => {
   `
   const res = await pool.query(updateAnswerReport, [answer_id])
   console.log('Answer Report Updated!')
-  return res;
+  return 'Updated';
 };
 
 

@@ -4,7 +4,7 @@
   "description": "Build backend service for Atelier",
   "scripts": {
     "start": "nodemon server/server.js",
-    "test": "jest"
+    "test": "jest --collectCoverage=true"
   },
   "repository": {
     "type": "git",
@@ -23,11 +23,13 @@
     "pg": "^8.7.1"
   },
   "dependencies": {
+    "@jest/globals": "^27.4.4",
     "fast-csv": "^4.3.6",
     "fs": "^0.0.1-security",
     "mongodb": "^4.2.1",
     "path": "^0.12.7",
     "pg-copy-streams": "^6.0.2",
-    "stream": "^0.0.2"
+    "stream": "^0.0.2",
+    "supertest": "^6.1.6"
   }
 }
