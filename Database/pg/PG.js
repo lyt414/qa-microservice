@@ -1,11 +1,13 @@
 const {Pool} = require('pg');
 // const conString = "postgres://newuser:password@localhost:5432/atelier";
+const dotenv = require('dotenv');
+dotenv.config();
 
 const credentials = {
-  user: 'newuser',
+  user: process.env.USER,
   host: 'localhost',
   database: 'atelier',
-  password:'password',
+  password:process.env.PASSWORD,
   port: 5432
 }
 

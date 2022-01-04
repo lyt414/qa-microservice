@@ -1,6 +1,7 @@
 const express = require('express');
 const qa = express();
 let PORT = 5500;
+require('newrelic');
 
 const db = require('../Database/pg/Query.js');
 

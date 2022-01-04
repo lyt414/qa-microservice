@@ -11,7 +11,7 @@ const getAnswers = async (q) => {
 
 const getQuestions = async (p) => {
   const {rows} = await pool.query(getQuestionQuery,[p]);
-  console.log(rows[0]);
+  // console.log(rows[0]);
   return rows[0];
 };
 
@@ -33,7 +33,7 @@ const postAnswer = async (question_id, ans_obj) => {
   const newAnswerID = rows[0].id + 1;
 
   const postAnswer = await pool.query(insertAnswerQuery, [newAnswerID, question_id, ans_obj.body, new Date().getTime(), ans_obj.name, ans_obj.email, 0, 0]);
-  console.log('Answer posted successfully');
+  // console.log('Answer posted successfully');
 
   if(ans_obj.photos.length > 0) {
     let {rows} = await pool.query(getMaxIDfromanswerphotos, []);
@@ -41,7 +41,7 @@ const postAnswer = async (question_id, ans_obj) => {
 
     for(let i = 0; i< ans_obj.photos.length ; i++){
       const res = await pool.query(insertPhotoquery, [maxPhotoId+1+i, newAnswerID, ans_obj.photos[i]])
-      console.log('Photo posted succesfully');
+      // console.log('Photo posted succesfully');
     };
   }
 
@@ -73,7 +73,7 @@ const postQuestion = async (que_obj) => {
   const maxId = rows[0].id;
 
   const res = await pool.query(insertQuestionQuery, [maxId+1, que_obj.product_id, que_obj.body, new Date().getTime(), que_obj.name, que_obj.email, 0, 0]);
-  console.log('post Question is succesful');
+  // console.log('post Question is succesful');
 
   return 'Posted';
 };
@@ -96,7 +96,7 @@ const putQuestionHelpful = async (question_id) => {
   const currenthelpful = rows[0].question_helfulness;
 
   const res = await pool.query(updateQuestionHelpful, [currenthelpful+1, question_id]);
-  console.log('Question helpful Updated!')
+  // console.log('Question helpful Updated!')
 
   return 'Updated';
 
@@ -122,7 +122,7 @@ const putAnswerHelpful = async (answer_id) => {
   const currenthelpful = rows[0].helpful;
 
   const res = await  pool.query(updateAnswerHelpful, [currenthelpful+1, answer_id]);
-  console.log('Answer helpful Updated!');
+  // console.log('Answer helpful Updated!');
 
   return 'Updated';
 
@@ -136,7 +136,7 @@ const putAnswerReport = async (answer_id) => {
     Where id = $1
   `
   const res = await pool.query(updateAnswerReport, [answer_id])
-  console.log('Answer Report Updated!')
+  // console.log('Answer Report Updated!')
   return 'Updated';
 };
 
