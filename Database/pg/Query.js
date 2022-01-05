@@ -6,15 +6,30 @@ const getQuestionQuery = fs.readFileSync(__dirname + '/SQL/getQuestionQuery.sql'
 
 const getAnswers = async (q) => {
   const {rows} = await pool.query(getAnswerQuery,[q]);
-  return rows[0];
+
+  if (rows.length > 0){
+    return rows[0]
+  } else {
+    return {
+      question_id: q,
+      results:[]
+    }
+  }
 };
+
 
 const getQuestions = async (p) => {
   const {rows} = await pool.query(getQuestionQuery,[p]);
-  // console.log(rows[0]);
-  return rows[0];
-};
+  if(rows.length > 0){
+    return rows[0];
+  } else {
+    return {
+      product_id: p,
+      results: []
+    }
+  }
 
+};
 
 const postAnswer = async (question_id, ans_obj) => {
 

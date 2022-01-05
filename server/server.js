@@ -21,7 +21,6 @@ qa.get('/questions', async (req, res) => {
     const questions = await db.getQuestions(product_id);
     res.status(200).send(questions);
   } catch (err) {
-    console.error(err);
     res.sendStatus(500);
   }
 });
@@ -32,7 +31,6 @@ qa.post('/questions', async (req, res) => {
     const newQuestion = await db.postQuestion(req.body);
     res.status(201).send('Posted');
   } catch(err){
-    console.log(err);
     res.sendStatus(500);
   }
 });
@@ -42,10 +40,8 @@ qa.get('/answers/:question_id', async (req, res) => {
   console.log(question_id)
   try {
     const answers = await db.getAnswers(question_id)
-    console.log('Answer:', answers)
     res.status(200).send(answers);
   } catch (err) {
-    console.error(err);
     res.sendStatus(500);
   }
 });
@@ -58,7 +54,6 @@ qa.post('/answers/:question_id', async (req, res) => {
     const newAnswer = await db.postAnswer(question_id, req.body);
     res.status(201).send('Posted');
   } catch(err){
-    console.log(err);
     res.sendStatus(500);
   }
 });
@@ -71,7 +66,6 @@ qa.put('/questions/:question_id/helpful', async(req, res) => {
     const helpful = await db.putQuestionHelpful(question_id);
     res.status(204).send('Updated');
   } catch(err){
-    console.log(err);
     res.sendStatus(500);
   }
 });
@@ -84,7 +78,6 @@ qa.put('/answers/:answer_id/helpful', async(req, res) => {
     const helpful = await db.putAnswerHelpful(answer_id);
     res.status(204).send('Updated');
   } catch(err){
-    console.log(err);
     res.sendStatus(500);
   }
 });
@@ -97,7 +90,6 @@ qa.put('/answers/:answer_id/reported', async(req, res) => {
     const helpful = await db.putAnswerReport(answer_id);
     res.status(204).send('Updated');
   } catch(err){
-    console.log(err);
     res.sendStatus(500);
   }
 });
