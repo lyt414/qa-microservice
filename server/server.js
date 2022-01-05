@@ -27,7 +27,6 @@ qa.get('/questions', async (req, res) => {
 
 qa.post('/questions', async (req, res) => {
   try {
-    console.log(req.body);
     const newQuestion = await db.postQuestion(req.body);
     res.status(201).send('Posted');
   } catch(err){
@@ -37,7 +36,6 @@ qa.post('/questions', async (req, res) => {
 
 qa.get('/answers/:question_id', async (req, res) => {
   const { question_id } = req.params;
-  console.log(question_id)
   try {
     const answers = await db.getAnswers(question_id)
     res.status(200).send(answers);
@@ -48,7 +46,6 @@ qa.get('/answers/:question_id', async (req, res) => {
 
 qa.post('/answers/:question_id', async (req, res) => {
   const { question_id } = req.params;
-  console.log(question_id);
 
   try {
     const newAnswer = await db.postAnswer(question_id, req.body);
@@ -60,7 +57,7 @@ qa.post('/answers/:question_id', async (req, res) => {
 
 qa.put('/questions/:question_id/helpful', async(req, res) => {
   const { question_id } = req.params;
-  console.log(question_id);
+  // console.log(question_id);
 
   try {
     const helpful = await db.putQuestionHelpful(question_id);
@@ -72,7 +69,6 @@ qa.put('/questions/:question_id/helpful', async(req, res) => {
 
 qa.put('/answers/:answer_id/helpful', async(req, res) => {
   const { answer_id } = req.params;
-  console.log(answer_id);
 
   try {
     const helpful = await db.putAnswerHelpful(answer_id);
@@ -84,7 +80,6 @@ qa.put('/answers/:answer_id/helpful', async(req, res) => {
 
 qa.put('/answers/:answer_id/reported', async(req, res) => {
   const { answer_id } = req.params;
-  console.log(answer_id);
 
   try {
     const helpful = await db.putAnswerReport(answer_id);

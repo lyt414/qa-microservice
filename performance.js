@@ -1,6 +1,21 @@
 import { check, sleep } from 'k6';
 import http from 'k6/http';
 
+// export let options = {
+//   vus: 1000,
+//   duration: '30s',
+// }
+
+// export default function() {
+//   let questionId = Math.floor(Math.random() * 1000000) + 2000000;
+
+//   let res = http.get(`http://localhost:5500/answers/${questionId}`);
+//   check(res, {
+//     "success": (r) => r.status == 200
+//   });
+//   sleep(1);
+// }
+
 export let options = {
   scenarios: {
     getQuestion: {
