@@ -4,10 +4,10 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 const credentials = {
-  user: process.env.USER,
-  host: 'localhost',
+  user: process.env.DB_USER,
+  host: process.env.DB_HOST,
   database: 'atelier',
-  password:process.env.PASSWORD,
+  password: process.env.DB_PASSWORD,
   port: 5432
 }
 

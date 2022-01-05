@@ -1,5 +1,4 @@
 const pool = require('./PG.js');
-const fs = require('fs');
 console.log = function() {};
 // const getAnswerQuery = fs.readFileSync(__dirname + '/SQL/getAnswerQuery.sql').toString();
 // const getQuestionQuery = fs.readFileSync(__dirname + '/SQL/getQuestionQuery.sql').toString();
@@ -50,8 +49,10 @@ const getAnswers = async (q) => {
   try {
     const {rows} = await pool.query(getAnswerQuery,[q]);
     if (rows.length > 0){
+      // console.log(rows[0])
       return rows[0]
     } else {
+      // console.log({question_id: q})
       return {
         question_id: q,
         results:[]
