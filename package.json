@@ -27,9 +27,12 @@
   "dependencies": {
     "@jest/globals": "^27.4.4",
     "@newrelic/native-metrics": "^7.0.2",
+    "fastify-formbody": "^5.2.0",
+    "fastify-qs": "^3.0.1",
     "k6": "^0.0.0",
     "newrelic": "^8.6.0",
     "path": "^0.12.7",
+    "qs": "^6.10.3",
     "stream": "^0.0.2",
     "supertest": "^6.1.6"
   }

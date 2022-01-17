@@ -9,12 +9,16 @@ const { getAnswers,
   putAnswerReport } = require('../Database/pg/Query.js');
 // fastify framework
 const fastify = require('fastify')({
-  logger: true
-})
+  logger: false
+});
+
+fastify.get('/loaderio-2d29d0cd88193d9ccb5496e296df079e/',  (req, res) => {
+  res.send('loaderio-2d29d0cd88193d9ccb5496e296df079e')
+});
 
 const start = async () => {
   try {
-    await fastify.listen(PORT)
+    await fastify.listen(PORT,'0.0.0.0');
     fastify.log.info(`QA-API is listening on ${PORT}`);
   } catch (err) {
     fastify.log.error(err)
@@ -24,8 +28,8 @@ const start = async () => {
 start();
 
 
-fastify.get('/questions/:product_id', async (req, res) => {
-  const { product_id } = req.params
+fastify.get('/questions', async (req, res) => {
+  const { product_id } = req.query
   try {
     const questions = await getQuestions(product_id);
     res.status(200).send(questions);
