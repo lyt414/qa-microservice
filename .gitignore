@@ -34,6 +34,7 @@ client/src/.DS_Store
 FEC.pem
 Data/
 newrelic_agent.log
+docker-compose.yml
 
 
 
