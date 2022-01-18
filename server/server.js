@@ -8,12 +8,15 @@ const { getAnswers,
   putAnswerHelpful,
   putAnswerReport } = require('../Database/pg/Query.js');
 // fastify framework
+const redis = require("redis");
 const fastify = require('fastify')({
   logger: false
 });
 
-fastify.get('/loaderio-2d29d0cd88193d9ccb5496e296df079e/',  (req, res) => {
-  res.send('loaderio-2d29d0cd88193d9ccb5496e296df079e')
+const redisClient = redis.createClient(6379);
+
+fastify.get('/loaderio-1b3eb6e7a35dc14788f5c638e467bf9b/',  (req, res) => {
+  res.send('loaderio-1b3eb6e7a35dc14788f5c638e467bf9b')
 });
 
 const start = async () => {
@@ -32,28 +35,31 @@ fastify.get('/questions', async (req, res) => {
   const { product_id } = req.query
   try {
     const questions = await getQuestions(product_id);
-    res.status(200).send(questions);
+    res.code(200).send(questions);
   } catch (err) {
-    res.sendStatus(500);
+    res.statusCode(500);
   }
 });
 
-fastify.post('/questions', async (req, res) => {
-  try {
-    const newQuestion = await postQuestion(req.body);
-    res.status(201).send('Posted');
-  } catch(err){
-    res.sendStatus(500);
-  }
-});
+
 
 fastify.get('/answers/:question_id', async (req, res) => {
   const { question_id } = req.params;
   try {
     const answers = await getAnswers(question_id)
-    res.status(200).send(answers);
+    res.code(200).send(answers);
   } catch (err) {
-    res.sendStatus(500);
+    res.statusCode(500);
+  }
+});
+
+
+fastify.post('/questions', async (req, res) => {
+  try {
+    const newQuestion = await postQuestion(req.body);
+    res.code(201).send('Posted');
+  } catch(err){
+    res.statusCode(500);
   }
 });
 
@@ -62,9 +68,9 @@ fastify.post('/answers/:question_id', async (req, res) => {
 
   try {
     const newAnswer = await postAnswer(question_id, req.body);
-    res.status(201).send('Posted');
+    res.code(201).send('Posted');
   } catch(err){
-    res.sendStatus(500);
+    res.statusCode(500);
   }
 });
 
@@ -74,9 +80,9 @@ fastify.put('/questions/:question_id/helpful', async(req, res) => {
 
   try {
     const helpful = await putQuestionHelpful(question_id);
-    res.status(204).send('Updated');
+    res.code(204).send('Updated');
   } catch(err){
-    res.sendStatus(500);
+    res.statusCode(500);
   }
 });
 
@@ -85,9 +91,9 @@ fastify.put('/answers/:answer_id/helpful', async(req, res) => {
 
   try {
     const helpful = await putAnswerHelpful(answer_id);
-    res.status(204).send('Updated');
+    res.code(204).send('Updated');
   } catch(err){
-    res.sendStatus(500);
+    res.statusCode(500);
   }
 });
 
@@ -96,9 +102,9 @@ fastify.put('/answers/:answer_id/reported', async(req, res) => {
 
   try {
     const helpful = await putAnswerReport(answer_id);
-    res.status(204).send('Updated');
+    res.code(204).send('Updated');
   } catch(err){
-    res.sendStatus(500);
+    res.statusCode(500);
   }
 });
 
