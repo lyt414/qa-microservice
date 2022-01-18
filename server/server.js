@@ -8,12 +8,20 @@ const { getAnswers,
   putAnswerHelpful,
   putAnswerReport } = require('../Database/pg/Query.js');
 // fastify framework
-const redis = require("redis");
+const redis = require('redis');
 const fastify = require('fastify')({
   logger: false
 });
 
-const redisClient = redis.createClient(6379);
+const client = redis.createClient();
+
+client.connect()
+
+client.on('error', err => {
+  console.log('Redis error ' + err);
+});
+
+
 
 fastify.get('/loaderio-1b3eb6e7a35dc14788f5c638e467bf9b/',  (req, res) => {
   res.send('loaderio-1b3eb6e7a35dc14788f5c638e467bf9b')
@@ -30,26 +38,36 @@ const start = async () => {
 }
 start();
 
-
+// only need to add Cache for Get routes
 fastify.get('/questions', async (req, res) => {
   const { product_id } = req.query
-  try {
-    const questions = await getQuestions(product_id);
-    res.code(200).send(questions);
-  } catch (err) {
-    res.statusCode(500);
+  const redisQuestion = await client.get(`questions?product_id=${product_id}`)
+  if(redisQuestion){
+    res.code(200).send(JSON.parse(redisQuestion))
+  } else {
+    try {
+      const questions = await getQuestions(product_id);
+      client.set(`questions?product_id=${product_id}`, JSON.stringify(questions));
+      res.code(200).send(questions);
+    } catch (err) {
+      res.code(500);
+    }
   }
 });
 
 
-
 fastify.get('/answers/:question_id', async (req, res) => {
   const { question_id } = req.params;
-  try {
-    const answers = await getAnswers(question_id)
-    res.code(200).send(answers);
-  } catch (err) {
-    res.statusCode(500);
+  const redisAnswer = await client.get(`/answers/${question_id}`);
+  if(redisAnswer) {
+    res.code(200).send(JSON.parse(redisAnswer))
+  } else {
+    try {
+      const answers = await getAnswers(question_id)
+      res.code(200).send(answers);
+    } catch (err) {
+      res.statusCode(500);
+    }
   }
 });
 
