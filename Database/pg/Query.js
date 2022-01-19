@@ -1,5 +1,5 @@
 const pool = require('./PG.js');
-console.log = function() {};
+// console.log = function() {};
 // const getAnswerQuery = fs.readFileSync(__dirname + '/SQL/getAnswerQuery.sql').toString();
 // const getQuestionQuery = fs.readFileSync(__dirname + '/SQL/getQuestionQuery.sql').toString();
 

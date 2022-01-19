@@ -1,5 +1,6 @@
 'use strict';
-let PORT = 5500;
+const PORT = 5500;
+
 const { getAnswers,
   getQuestions,
   postAnswer,
@@ -8,12 +9,11 @@ const { getAnswers,
   putAnswerHelpful,
   putAnswerReport } = require('../Database/pg/Query.js');
 // fastify framework
-const redis = require('redis');
 const fastify = require('fastify')({
   logger: false
 });
-
-const client = redis.createClient();
+const redis = require('redis');
+const client = redis.createClient(6379, 'redis-api.mftwpq.0001.use2.cache.amazonaws.com');
 
 client.connect()
 
@@ -22,15 +22,14 @@ client.on('error', err => {
 });
 
 
-
-fastify.get('/loaderio-1b3eb6e7a35dc14788f5c638e467bf9b/',  (req, res) => {
-  res.send('loaderio-1b3eb6e7a35dc14788f5c638e467bf9b')
+fastify.get('/loaderio-b63dba91faff0996ffb14dd606b562af/',  (req, res) => {
+  res.send('loaderio-b63dba91faff0996ffb14dd606b562af')
 });
 
 const start = async () => {
   try {
     await fastify.listen(PORT,'0.0.0.0');
-    fastify.log.info(`QA-API is listening on ${PORT}`);
+    console.log(`QA-API is listening on ${PORT}`);
   } catch (err) {
     fastify.log.error(err)
     process.exit(1)
@@ -63,7 +62,8 @@ fastify.get('/answers/:question_id', async (req, res) => {
     res.code(200).send(JSON.parse(redisAnswer))
   } else {
     try {
-      const answers = await getAnswers(question_id)
+      const answers = await getAnswers(question_id);
+      client.set(`/answers/${question_id}`, JSON.stringify(answers));
       res.code(200).send(answers);
     } catch (err) {
       res.statusCode(500);
@@ -127,17 +127,12 @@ fastify.put('/answers/:answer_id/reported', async(req, res) => {
 });
 
 
-// const db = require('../Database/pg/Query.js');
 
 // express framework
 // const express = require('express');
 // const qa = express();
 
 // // require('newrelic');
-
-// const db = require('../Database/pg/Query.js');
-
-
 // qa.use(express.static('../Database'));
 // qa.use(express.json());
 // qa.use(express.urlencoded({ extended: true }));
@@ -157,14 +152,6 @@ fastify.put('/answers/:answer_id/reported', async(req, res) => {
 //   }
 // });
 
-// qa.post('/questions', async (req, res) => {
-//   try {
-//     const newQuestion = await db.postQuestion(req.body);
-//     res.status(201).send('Posted');
-//   } catch(err){
-//     res.sendStatus(500);
-//   }
-// });
 
 // qa.get('/answers/:question_id', async (req, res) => {
 //   const { question_id } = req.params;
@@ -172,6 +159,56 @@ fastify.put('/answers/:answer_id/reported', async(req, res) => {
 //     const answers = await db.getAnswers(question_id)
 //     res.status(200).send(answers);
 //   } catch (err) {
+//     res.sendStatus(500);
+//   }
+// });
+
+// qa.get('/', (req, res) => {
+//   res.status(200).send('hello')
+// })
+
+// qa.get('/questions', async (req, res) => {
+//   const { product_id } = req.query
+//   const redisQuestion = await client.get(`questions?product_id=${product_id}`)
+//   if(redisQuestion){
+//     res.status(200).send(JSON.parse(redisQuestion))
+//   } else {
+//     try {
+//       const questions = await getQuestions(product_id);
+//       client.set(`questions?product_id=${product_id}`, JSON.stringify(questions));
+//       res.status(200).send(questions);
+//     } catch (err) {
+//       res.sendStatus(500);
+//     }
+//   }
+// });
+
+
+// qa.get('/answers/:question_id', async (req, res) => {
+//   const { question_id } = req.params;
+//   console.log(question_id)
+//   const redisAnswer = await client.get(`/answers/${question_id}`);
+//   console.log('redis answer: ', redisAnswer);
+//   if(redisAnswer) {
+//     console.log('code is in redis path');
+//     res.status(200).send(JSON.parse(redisAnswer))
+//   } else {
+//     console.log('code is in database path');
+//     try {
+//       const answers = await getAnswers(question_id);
+//       client.set(`/answers/${question_id}`, JSON.stringify(answers));
+//       res.status(200).send(answers);
+//     } catch (err) {
+//       res.sendStatus(500);
+//     }
+//   }
+// });
+
+// qa.post('/questions', async (req, res) => {
+//   try {
+//     const newQuestion = await db.postQuestion(req.body);
+//     res.status(201).send('Posted');
+//   } catch(err){
 //     res.sendStatus(500);
 //   }
 // });
