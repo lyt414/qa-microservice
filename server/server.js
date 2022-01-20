@@ -22,8 +22,8 @@ client.on('error', err => {
 });
 
 
-fastify.get('/loaderio-b63dba91faff0996ffb14dd606b562af/',  (req, res) => {
-  res.send('loaderio-b63dba91faff0996ffb14dd606b562af')
+fastify.get('/loaderio-73026e8f0a3fdc105132a2da4fb0f2a3/',  (req, res) => {
+  res.send('loaderio-73026e8f0a3fdc105132a2da4fb0f2a3')
 });
 
 const start = async () => {
